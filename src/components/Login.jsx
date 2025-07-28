@@ -6,7 +6,7 @@ export default function Login() {
   const {user} = useAuthContext(); 
 
   if (!user) {
-    console.log("No logueado!!!")
+    //console.log("No logueado!!!")
     return <Navigate to="/login2" replace />;
   }
   return (

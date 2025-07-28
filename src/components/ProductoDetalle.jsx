@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState, useCallback } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from 'react-toastify';
 
-import { dispararSweetBasico } from "../assets/SweetAlert";
+import { Helmet } from "react-helmet-async";
 import { CarritoContext } from "../contexts/CarritoContext";
 import { useProductosContext } from "../contexts/ProductosContext";
 import { useAuthContext } from "../contexts/AuthContext.jsx";
@@ -38,12 +39,7 @@ function ProductoDetalle({}) {
 
   function funcionCarrito() {
     if (cantidad < 1) return;
-    dispararSweetBasico(
-      "Producto Agregado",
-      "El producto fue agregado al carrito con éxito",
-      "success",
-      "Cerrar"
-    );
+    toast.success('¡Producto agregado al carrito!');
     agregarAlCarrito({ ...producto, cantidad });
   }
 
@@ -55,16 +51,15 @@ function ProductoDetalle({}) {
     if (cantidad > 1) setCantidad(cantidad - 1);
   }
 
-  const dispararEliminar = () => {
-    const promise = eliminarProducto(id);
-    if (promise) {
-      promise
-        .then(() => {
-          navegar("/productos");
-        })
-        .catch((error) => {
-          dispararSweetBasico("Error", "No se pudo eliminar el producto.", "error", "Cerrar");
-        });
+  const dispararEliminar = async () => {
+    try {
+      const fueEliminado = await eliminarProducto(id);
+      if (fueEliminado) {
+        navegar("/productos");
+      }
+    } catch (error) {
+      // El error ya es manejado por SweetAlert en el contexto
+      console.error("Fallo al eliminar el producto:", error);
     }
   };
 
@@ -99,34 +94,55 @@ function ProductoDetalle({}) {
   }
 
   return (
-    <div className="container my-5">
-      <div className="row">
-        <div className="col-md-6 mb-4 mb-md-0">
-          <img src={producto.imagen} alt={producto.name} className="img-fluid rounded shadow-sm" />
-        </div>
-        <div className="col-md-6 d-flex flex-column justify-content-center ps-md-5">
-          <h1 className="display-5 fw-bold">{producto.name}</h1>
-          <p className="lead text-muted">{producto.description}</p>
-          <p className="h2 my-3">${producto.price}</p>
-          <div className="mb-4">
-            <label htmlFor="cantidad" className="form-label">Cantidad:</label>
-            <div className="input-group" style={{ maxWidth: "150px" }}>
-              <button className="btn btn-outline-secondary" type="button" onClick={restarContador}>-</button>
-              <input type="text" id="cantidad" className="form-control text-center" value={cantidad} readOnly />
-              <button className="btn btn-outline-secondary" type="button" onClick={sumarContador}>+</button>
-            </div>
+    <>
+      <Helmet>
+        <title>{`Bits & Books - ${producto.name}`}</title>
+        <meta name="description" content={producto.description} />
+        <link rel="canonical" href={window.location.href} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={`Bits & Books - ${producto.name}`} />
+        <meta property="og:description" content={producto.description} />
+        <meta property="og:image" content={producto.imagen} />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={window.location.href} />
+        <meta property="twitter:title" content={`Bits & Books - ${producto.name}`} />
+        <meta property="twitter:description" content={producto.description} />
+        <meta property="twitter:image" content={producto.imagen} />
+      </Helmet>
+      <div className="container my-5">
+        <div className="row">
+          <div className="col-md-6 mb-4 mb-md-0">
+            <img src={producto.imagen} alt={producto.name} className="img-fluid rounded shadow-sm" />
           </div>
-          {user === 'admin' ? (
-            <div className="d-flex gap-2">
-              <Link to={`/admin/editarProducto/${id}`} className="btn btn-secondary">Editar Producto</Link>
-              <button onClick={dispararEliminar} className="btn btn-danger">Eliminar Producto</button>
+          <div className="col-md-6 d-flex flex-column justify-content-center ps-md-5">
+            <h1 className="display-5 fw-bold">{producto.name}</h1>
+            <p className="lead text-muted">{producto.description}</p>
+            <p className="h2 my-3">${producto.price}</p>
+            <div className="mb-4">
+              <label htmlFor="cantidad" className="form-label">Cantidad:</label>
+              <div className="input-group" style={{ maxWidth: "150px" }}>
+                <button className="btn btn-outline-secondary" type="button" onClick={restarContador}>-</button>
+                <input type="text" id="cantidad" className="form-control text-center" value={cantidad} readOnly />
+                <button className="btn btn-outline-secondary" type="button" onClick={sumarContador}>+</button>
+              </div>
             </div>
-          ) : (
-            <button onClick={funcionCarrito} className="btn btn-primary btn-lg">Agregar al carrito</button>
-          )}
+            {user === 'admin' ? (
+              <div className="d-flex gap-2">
+                <Link to={`/admin/editarProducto/${id}`} className="btn btn-secondary">Editar Producto</Link>
+                <button onClick={dispararEliminar} className="btn btn-danger">Eliminar Producto</button>
+              </div>
+            ) : (
+              <button onClick={funcionCarrito} className="btn btn-primary btn-lg">Agregar al carrito</button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

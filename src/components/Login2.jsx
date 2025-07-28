@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
+import { FaSignInAlt } from "react-icons/fa";
 
 function Login2() {
   const [usuario, setUsuario] = useState("");
@@ -41,42 +43,51 @@ function Login2() {
     }
   };
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-5 col-lg-4">
-          <div className="card shadow">
-            <div className="card-body p-4">
-              <h2 className="card-title text-center mb-4">Iniciar sesión</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="usuario" className="form-label">Usuario:</label>
-                  <input
-                    type="text"
-                    id="usuario"
-                    className="form-control"
-                    value={usuario}
-                    onChange={(e) => setUsuario(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Contraseña:</label>
-                  <input
-                    type="password"
-                    id="password"
-                    className="form-control"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                <button className="btn btn-primary w-100" type="submit">Iniciar sesión</button>
-              </form>
+    <>
+      <Helmet>
+        <title>Bits & Books - Iniciar Sesión</title>
+        <meta name="description" content="Inicia sesión en tu cuenta de Bits & Books para acceder a tu carrito y más." />
+      </Helmet>
+      <div className="container mt-5">
+        <div className="row justify-content-center">
+          <div className="col-md-5 col-lg-4">
+            <div className="card shadow">
+              <div className="card-body p-4">
+                <h2 className="card-title text-center mb-4">Iniciar sesión</h2>
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label htmlFor="usuario" className="form-label">Usuario:</label>
+                    <input
+                      type="text"
+                      id="usuario"
+                      className="form-control"
+                      value={usuario}
+                      onChange={(e) => setUsuario(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Contraseña:</label>
+                    <input
+                      type="password"
+                      id="password"
+                      className="form-control"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <button className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2" type="submit">
+                    <FaSignInAlt />
+                    <span>Iniciar sesión</span>
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 export default Login2;

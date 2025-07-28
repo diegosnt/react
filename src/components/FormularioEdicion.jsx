@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { useProductosContext } from "../contexts/ProductosContext";
 import { useAuthContext } from "../contexts/AuthContext";
+import { toast } from 'react-toastify';
+import { Helmet } from "react-helmet-async";
+import { FaSave } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 function FormularioEdicion({ }) {
   const { user } = useAuthContext();
@@ -63,11 +66,7 @@ function FormularioEdicion({ }) {
     if (mensajeError === true) {
       try {
         await editarProducto(producto);
-        Swal.fire({
-          icon: 'success',
-          title: '¡Actualizado!',
-          text: 'El producto se ha actualizado correctamente.',
-        });
+        toast.success('El producto se ha actualizado correctamente.');
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -115,60 +114,69 @@ function FormularioEdicion({ }) {
   }
 
   return (
-    <div className="container mt-4">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card p-4 shadow">
-            <h2 className="text-center mb-4">Editar Producto</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">Nombre:</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="form-control"
-                  value={producto?.name || ''}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="imagen" className="form-label">URL de la Imagen</label>
-                <input
-                  type="text" id="imagen" name="imagen" className="form-control" value={producto?.imagen || ''} onChange={handleChange} required/>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="price" className="form-label">Precio:</label>
-                <input
-                  type="number"
-                  id="price"
-                  name="price"
-                  className="form-control"
-                  value={producto?.price || ''}
-                  onChange={handleChange}
-                  required
-                  min="0"
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="description" className="form-label">Descripción:</label>
-                <textarea
-                  id="description"
-                  name="description"
-                  className="form-control"
-                  rows="3"
-                  value={producto?.description || ''}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <button className="btn btn-primary w-100" type="submit">Actualizar Producto</button>
-            </form>
+    <>
+      <Helmet>
+        <title>{`Bits & Books - Editando: ${producto?.name || 'Producto'}`}</title>
+        <meta name="description" content={`Formulario para editar el producto ${producto?.name || ''}.`} />
+      </Helmet>
+      <div className="container mt-4">
+        <div className="row justify-content-center">
+          <div className="col-md-6">
+            <div className="card p-4 shadow">
+              <h2 className="text-center mb-4">Editar Producto</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">Nombre:</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="form-control"
+                    value={producto?.name || ''}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="imagen" className="form-label">URL de la Imagen</label>
+                  <input
+                    type="text" id="imagen" name="imagen" className="form-control" value={producto?.imagen || ''} onChange={handleChange} required/>
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="price" className="form-label">Precio:</label>
+                  <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    className="form-control"
+                    value={producto?.price || ''}
+                    onChange={handleChange}
+                    required
+                    min="0"
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="description" className="form-label">Descripción:</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    className="form-control"
+                    rows="3"
+                    value={producto?.description || ''}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <button className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2" type="submit">
+                  <FaSave />
+                  <span>Actualizar Producto</span>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -8,7 +8,7 @@ export default function Carrito() {
   const { user } = useAuthContext();
   const { productosCarrito, vaciarCarrito, borrarProductoCarrito } =
     useContext(CarritoContext);
-  console.log("Productos en carrito: ", productosCarrito);
+  //console.log("Productos en carrito: ", productosCarrito);
 
   const total = productosCarrito.reduce(
     (subTotal, producto) => subTotal + producto.price * producto.cantidad,
