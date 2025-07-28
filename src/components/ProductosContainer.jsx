@@ -41,12 +41,10 @@ function ProductosContainer() {
       producto.description.toLowerCase().includes(terminoBusqueda.toLowerCase())
   );
 
-  // Lógica de paginación
   const indexOfLastProduct = currentPage * productosPorPagina;
   const indexOfFirstProduct = indexOfLastProduct - productosPorPagina;
   const currentProducts = productosFiltrados.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  // Cambiar de página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (cargando) {

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useCallback } from "react";
 import Swal from "sweetalert2";
-// Crear el contexto de de los productos
+
 const ProductosContext = createContext();
 export function ProductosProvider({ children }) {
   const [productos, setProductos] = useState([]);

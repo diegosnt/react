@@ -23,7 +23,6 @@ export function CarritoProvider({ children }) {
     };
 
     function borrarProductoCarrito(id){
-        //console.log(id)
         const nuevoCarrito = productosCarrito.filter((p) => p.id !== id);
         setProductosCarrito(nuevoCarrito);
     }

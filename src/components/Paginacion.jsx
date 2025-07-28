@@ -9,7 +9,7 @@ const Paginacion = ({ productosPorPagina, totalProductos, paginate, currentPage 
   }
 
   if (totalPages <= 1) {
-    return null; // No mostrar paginación si solo hay una página o menos
+    return null;
   }
 
   return (
