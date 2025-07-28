@@ -1,10 +1,8 @@
 import React, { createContext, useState, useContext } from "react";
-// Crear el contexto de autenticación
 const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const login = (username) => {
-    // Simulando la creación de un token (en una app real, esto seríagenerado por un servidor)
     const token = `fake-token-${username}`;
     localStorage.setItem("authToken", token);
     setUser(username);

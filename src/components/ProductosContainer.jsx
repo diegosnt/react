@@ -1,45 +1,59 @@
 import { useEffect, useState } from "react";
-//import products from "../assets/data/products.json"; // Se importa el JSON
-import "../styles/Global.css";
+import { useProductosContext } from "../contexts/ProductosContext";
 import Card from "./Card";
 
-function ProductosContainer({ functionCarrito }) {
-  const [productos, setProductos] = useState([]);
+function ProductosContainer() {
+  const { productos, obtenerProductos } = useProductosContext();
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
-  {
-    useEffect(() => {
-      // se consumen los proctos de mockapi
-      fetch("https://68333518c3f2222a8cb54b35.mockapi.io/productos")
-        .then((respuesta) => respuesta.json())
-        .then((datos) => {
-          console.log(datos);
-          //debugger;
-          setProductos(datos);
-          setCargando(false);
-        })
-        .catch((error) => {
-          console.log("Error", error);
-          setError("Hubo un problema al cargar los productos.");
-          setCargando(false);
-        });
-    }, []);
-  }
+  useEffect(() => {
+    if (productos.length > 0) {
+      setCargando(false);
+      return;
+    }
+
+    const cargarProductos = async () => {
+      try {
+        await obtenerProductos();
+      } catch (err) {
+        setError("Hubo un problema al cargar los productos.");
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    cargarProductos();
+  }, [obtenerProductos, productos.length]);
 
   if (cargando) {
-    return <p className="cargando">Cargando productos...</p>;
-  } else if (error) {
-    return <p>{error}</p>;
-  } else {
     return (
-      <div className="productos-conteiner">
-        {productos.map((producto) => (
-          <Card key={producto.id} producto={producto} />
-        ))}
+      <div className="d-flex justify-content-center mt-5">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Cargando...</span>
+        </div>
       </div>
     );
   }
+
+  if (error) {
+    return (
+      <div className="container mt-4">
+        <div className="alert alert-danger" role="alert">{error}</div>
+      </div>
+    );
+  }
+  return (
+    <div className="container mt-4">
+      <div className="row">
+        {productos.map((producto) => (
+          <div key={producto.id} className="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <Card producto={producto} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default ProductosContainer;

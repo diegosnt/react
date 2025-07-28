@@ -1,12 +1,12 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useCallback } from "react";
 import Swal from "sweetalert2";
 // Crear el contexto de de los productos
 const ProductosContext = createContext();
 export function ProductosProvider({ children }) {
   const [productos, setProductos] = useState([]);
-  const [productoEncontrado, setProductoEncontrado] = useState([]);
+  const [productoEncontrado, setProductoEncontrado] = useState(null);
 
-  async function obtenerProductos() {
+  const obtenerProductos = useCallback(async () => {
     try {
       const respuesta = await fetch(
         "https://68333518c3f2222a8cb54b35.mockapi.io/productos"
@@ -21,9 +21,9 @@ export function ProductosProvider({ children }) {
       console.error("Error:", error.message);
       throw new Error("Hubo un problema al cargar los productos.");
     }
-  }
+  }, []);
 
-  const agregarProducto = async (producto) => {
+  const agregarProducto = useCallback(async (producto) => {
     try {
       const respuesta = await fetch(
         "https://68333518c3f2222a8cb54b35.mockapi.io/productos",
@@ -36,38 +36,36 @@ export function ProductosProvider({ children }) {
       if (!respuesta.ok) {
         throw new Error("Error al agregar el producto.");
       }
-      return await respuesta.json();
+      const nuevoProducto = await respuesta.json();
+      setProductos((prev) => [...prev, nuevoProducto]);
+      return nuevoProducto;
     } catch (error) {
       console.error(error.message);
       throw error;
     }
-  };
+  }, []);
 
-  async function obtenerProducto(id) {
+  const obtenerProducto = useCallback(async (id) => {
     try {
       const respuesta = await fetch(
-        "https://68333518c3f2222a8cb54b35.mockapi.io/productos"
+        `https://68333518c3f2222a8cb54b35.mockapi.io/productos/${id}`
       );
       if (!respuesta.ok) {
+        if (respuesta.status === 404) {
+          throw new Error("Producto no encontrado");
+        }
         throw new Error("Hubo un error al obtener el producto.");
       }
-      const datos = await respuesta.json();
-      const producto = datos.find((item) => item.id === id);
-      if (producto) {
-        setProductoEncontrado(producto);
-        return producto;
-      } else {
-        throw new Error("Producto no encontrado");
-      }
+      const producto = await respuesta.json();
+      setProductoEncontrado(producto);
+      return producto;
     } catch (err) {
       console.error("Error:", err.message);
-      throw err.message === "Producto no encontrado"
-        ? "Producto no encontrado"
-        : "Hubo un error al obtener el producto.";
+      throw err;
     }
-  }
+  }, []);
 
-  async function editarProducto(producto) {
+  const editarProducto = useCallback(async (producto) => {
     try {
       const respuesta = await fetch(
         `https://68333518c3f2222a8cb54b35.mockapi.io/productos/${producto.id}`,
@@ -80,14 +78,19 @@ export function ProductosProvider({ children }) {
       if (!respuesta.ok) {
         throw new Error("Error al actualizar el producto.");
       }
-      return await respuesta.json();
+      const productoActualizado = await respuesta.json();
+      setProductoEncontrado(productoActualizado);
+      setProductos((prevProductos) =>
+        prevProductos.map(p => p.id === productoActualizado.id ? productoActualizado : p)
+      );
+      return productoActualizado;
     } catch (error) {
       console.error(error.message);
       throw error;
     }
-  }
+  }, []);
 
-  const eliminarProducto = async (id) => {
+  const eliminarProducto = useCallback(async (id) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
       text: "No podrás revertir esta acción.",
@@ -108,6 +111,7 @@ export function ProductosProvider({ children }) {
           }
         );
         if (!respuesta.ok) throw new Error("Error al eliminar");
+        setProductos((prev) => prev.filter((p) => p.id !== id));
         await Swal.fire(
           "¡Eliminado!",
           "El producto ha sido eliminado.",
@@ -123,7 +127,7 @@ export function ProductosProvider({ children }) {
         throw error;
       }
     }
-  };
+  }, []);
 
   return (
     <ProductosContext.Provider

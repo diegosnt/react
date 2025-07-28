@@ -3,6 +3,7 @@ import './App.css'
 import Home from './layouts/Home'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Nav from './components/Nav';
+import Footer from './components/Footer';
 import ProductosContainer from './components/ProductosContainer';
 import Carrito from './components/Carrito';
 import About from './components/About';
@@ -18,21 +19,23 @@ import FormularioEdicion from './components/FormularioEdicion';
 function App() {
   return (
     <Router>
-      <div>
+      <div className="d-flex flex-column min-vh-100">
         <Nav/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {/* <Route path='/login' element={<Login user={usuarioLogeado} admin={adminLogeado} setLogeadoAdmin={manejarAdmin} setLogeadoUser={manejarUser}/>}/>*/}
-          <Route path='/login' element={<Login2/>}/> 
-          <Route path="/productos" element={<ProductosContainer/>} />
-          <Route path="/carrito" element={<Carrito /> }/>      
-          <Route path="/nosotros" element={<About />} />
-          <Route path="/contacto" element={<Contacto/>} />
-          <Route path="/productos/:id" element={<ProductoDetalle/>} />
-          <Route path='/admin' element={<Admin/>} />
-          <Route path="/admin/agregarProductos" element={<FormularioProducto/>}/>
-          <Route path="/admin/editarProducto/:id" element={<FormularioEdicion/>}/>
-        </Routes>
+        <main className="flex-grow-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path='/login' element={<Login2/>}/> 
+            <Route path="/productos" element={<ProductosContainer/>} />
+            <Route path="/carrito" element={<Carrito /> }/>      
+            <Route path="/nosotros" element={<About />} />
+            <Route path="/contacto" element={<Contacto/>} />
+            <Route path="/productos/:id" element={<ProductoDetalle/>} />
+            <Route path='/admin' element={<Admin/>} />
+            <Route path="/admin/agregarProductos" element={<FormularioProducto/>}/>
+            <Route path="/admin/editarProducto/:id" element={<FormularioEdicion/>}/>
+          </Routes>
+        </main>
+        <Footer />
       </div>
     </Router>
   )

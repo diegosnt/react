@@ -3,9 +3,6 @@ import Swal from 'sweetalert2';
 import { useAuthContext } from '../contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { useProductosContext } from '../contexts/ProductosContext';
-import "../styles/Global.css";
-
-
 
 function FormularioProducto({}) {
   const {agregarProducto} = useProductosContext();
@@ -75,38 +72,68 @@ function FormularioProducto({}) {
   }
 
   return ( 
-    <div className="formulario-container">
-      <form className="formulario-producto" onSubmit={handleSubmit}>
-        <h2>Agregar Producto</h2>
-        <div className="formulario-grupo">
-          <label>Nombre:</label>
-          <input
-            type="text" name="name" value={producto.name} onChange={handleChange} required/>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-8 col-lg-6">
+          <div className="card p-4 shadow-sm">
+            <h2 className="text-center mb-4">Agregar Producto</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">Nombre:</label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  className="form-control"
+                  value={producto.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="imagen" className="form-label">URL de la Imagen</label>
+                <input
+                  id="imagen"
+                  type="text"
+                  name="imagen"
+                  className="form-control"
+                  value={producto.imagen}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="price" className="form-label">Precio:</label>
+                <input
+                  id="price"
+                  type="number"
+                  name="price"
+                  className="form-control"
+                  value={producto.price}
+                  onChange={handleChange}
+                  required
+                  min="0"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="description" className="form-label">Descripción:</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  className="form-control"
+                  rows="4"
+                  value={producto.description}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <button className="btn btn-primary w-100" type="submit">Agregar Producto</button>
+            </form>
+          </div>
         </div>
-        <div className="formulario-grupo">
-          <label>URL de la Imagen</label>
-          <input
-            type="text" name="imagen" value={producto.imagen} onChange={handleChange} required/>
-        </div>
-        <div className="formulario-grupo">
-          <label>Precio:</label>
-          <input type="number" name="price" value={producto.price} onChange={handleChange} required
-            min="0"/>
-        </div>
-        <div className="formulario-grupo">
-          <label>Descripción:</label>
-          <textarea
-            name="description"
-            value={producto.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button className="formulario-boton" type="submit">Agregar Producto</button>
-      </form>
+      </div>
     </div>
   );
 }
 
 export default FormularioProducto;
-  

@@ -1,9 +1,7 @@
-import "../styles/Global.css";
-
 function Footer() {  
     return (  
-        <footer className="footer">  
-            <p>&copy; 2025 - Bits & Books</p>  
+        <footer className="text-white text-center p-3" style={{ backgroundColor: '#5459ac' }}>  
+            <p className="mb-0">&copy; 2025 - Bits & Books</p>  
         </footer>  
     );  
 }  

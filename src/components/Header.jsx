@@ -1,9 +1,10 @@
-import "../styles/Global.css";
 function Header() {  
-    
     return ( 
-        <header className="header">  
-            <h1>Bits & Books</h1>  
+        <header className="text-white text-center py-5" style={{ backgroundColor: '#5459ac' }}>
+            <div className="container">
+                <h1 className="display-4 fw-bold">Bits & Books</h1>
+                <p className="lead">Tu tienda online de libros de informática.</p>
+            </div>
         </header>  
     );  
 }  
