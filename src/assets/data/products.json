@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "nombre": "Silvia",
+    "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum commodi voluptatum doloremque asperiores.",
+    "precio": 1.99,
+    "imagen": "https://rickandmortyapi.com/api/character/avatar/3.jpeg"
+  },
+
+  {
+    "id": 2,
+    "nombre": "Luis",
+    "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum commodi voluptatum doloremque asperiores.",
+    "precio": 2.99,
+    "imagen": "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
+  },
+  {
+    "id": 3,
+    "nombre": "Matías",
+    "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum commodi voluptatum doloremque asperiores.",
+    "precio": 3.99,
+    "imagen": "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+  },
+  {
+    "id": 4,
+    "nombre": "Sabrina",
+    "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum commodi voluptatum doloremque asperiores.",
+    "precio": 4.99,
+    "imagen": "https://rickandmortyapi.com/api/character/avatar/4.jpeg"
+  }
+]
