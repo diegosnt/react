@@ -70,8 +70,8 @@ function ProductosContainer() {
         <title>Bits & Books - Catálogo de Productos</title>
         <meta name="description" content="Explora nuestro catálogo completo de libros de informática en Bits & Books." />
       </Helmet>
-      <div className="container mt-4">
-        <div className="row mb-4">
+      <div className="container d-flex flex-column h-100">
+        <div className="row pt-3 mb-3">
           <div className="col">
             <input
               type="text"
@@ -82,7 +82,7 @@ function ProductosContainer() {
             />
           </div>
         </div>
-        <div className="row">
+        <div className="row flex-grow-1 align-content-start">
           {currentProducts.length > 0 ? (
             currentProducts.map((producto) => (
               <div key={producto.id} className="col-lg-3 col-md-4 col-sm-6 mb-4">
@@ -97,7 +97,7 @@ function ProductosContainer() {
             </div>
           )}
         </div>
-        <div className="d-flex justify-content-center mt-4">
+        <div className="d-flex justify-content-center mt-auto py-3">
           <Paginacion productosPorPagina={productosPorPagina} totalProductos={productosFiltrados.length} paginate={paginate} currentPage={currentPage} />
         </div>
       </div>

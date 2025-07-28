@@ -8,15 +8,15 @@ function Card({ producto }) {
           className="card-img-top"
           src={producto.imagen}
           alt={producto.name}
-          style={{ height: "220px", objectFit: "cover" }}
+          style={{ height: "160px", objectFit: "cover" }}
         />
       </Link>
-      <div className="card-body d-flex flex-column">
-        <h5 className="card-title">{producto.name}</h5>
-        <p className="card-text fw-bold">$ {producto.price}</p>
+      <div className="card-body d-flex flex-column p-2">
+        <h6 className="card-title flex-grow-1" style={{fontSize: '0.9rem'}}>{producto.name}</h6>
+        <p className="card-text fw-bold mb-2">$ {producto.price}</p>
         <Link
           to={`/productos/${producto.id}`}
-          className="btn btn-primary mt-auto"
+          className="btn btn-primary btn-sm mt-auto"
         >
           Ver Detalles
         </Link>
